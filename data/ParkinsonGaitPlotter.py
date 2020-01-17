@@ -26,7 +26,7 @@ def main():
     #plot right foot force by y
     plt.plot(time, rightFootForce, color='red', label='Right Foot')
     #plot stage 
-    plt.plot(time, stage, color="green", label='Stage')
+    plt.plot(time, stage,color='green', label='Stage')
     #set range for x axis (X axis is truncated for readability)
     plt.xlim([0.0, 30.0])
     
