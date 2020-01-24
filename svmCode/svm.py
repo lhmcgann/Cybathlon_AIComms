@@ -4,9 +4,7 @@ import csv
 #   the training samples, and an array y of class labels (strings or integers),
 #   size [n_samples]
 
-#initialize lists to hold data
-leftFootForce = []
-rightFootForce = []
+# initialize lists to hold data
 input = []
 stage = []
 
@@ -16,15 +14,9 @@ with open('../data/usable_input_data.csv','r') as csvFile:
     plots = csv.reader(csvFile, delimiter=',')
     #read data into memory
     for column in plots:
-        leftFootForce.append(float(column[1]))
-        rightFootForce.append(float(column[2]))
+        vector = [float(column[1]), float(column[2])]
+        input.append(vector)
         stage.append(float(column[3]))
-
-for i in range(0, len(leftFootForce)):
-    vector = [leftFootForce[i], rightFootForce[i]]
-    input.append(vector)
-    if i < 10:
-        print(vector)
 
 # create the svm
 clf = svm.SVC()
