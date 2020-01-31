@@ -28,9 +28,10 @@ def loadData(filename):
 	with open(filename,'r') as csvFile :
 		data = csv.reader(csvFile, delimiter=',')
 		
+		
 		# read data into memory
 		for column in data :
-			dataset.append([float(column[1]), float(column[2]), float(column[4])])
+			dataset.append([float(column[0]), float(column[1]), float(column[2])])
 
 		# partitions data into three distinct chunks
 		trainingDataset = dataset[0 : int(len(dataset) * TRAINING_PERCENTAGE)]
@@ -38,8 +39,9 @@ def loadData(filename):
 			int(len(dataset) * VALIDATION_PERCENTAGE)]
 		testingDataset = dataset[int(len(dataset) * VALIDATION_PERCENTAGE) :]
 
-	
+	print(type(tf.data.Dataset.from_tensor_slices(trainingDataset)))
 	return (tf.data.Dataset.from_tensor_slices(trainingDataset), 
+		int(len(dataset) * TRAINING_PERCENTAGE), 
 		tf.data.Dataset.from_tensor_slices(validationDataset),
 		tf.data.Dataset.from_tensor_slices(testingDataset))
 
