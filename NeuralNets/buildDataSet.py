@@ -19,7 +19,8 @@ def generateDataSet(filePath) :
     """ Uses panda api to parse through CSV with the given column names and
     create a labeled, parseable dataset"""
 
-    column_names = ['Left foot', 'Right foot', 'Gait']
+    column_names = ['Left foot', 'Right foot', 'LeftFootSlope',
+                    'RightFootSlope', 'Gait']
     raw_dataSet = pd.read_csv(filePath, names=column_names,
                     na_values = '?', comment='\t',
                     sep=",", skipinitialspace=True )
