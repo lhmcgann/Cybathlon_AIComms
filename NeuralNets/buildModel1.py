@@ -60,6 +60,7 @@ def trainModel(model, trainDataSet, testData, testLabels, trainLabels) :
     plt.xlim(lims)
     plt.ylim(lims)
     _ = plt.plot(lims, lims)
+    plt.show()
     
 
 
