@@ -17,12 +17,15 @@ import neuralNetwork
 def main() :
     dataSets = neuralNetwork.loadData('outputWithRegression.csv')
     model = createModel(dataSets)
-    for i in range(4) :
-        if (i != 1) :
-            print(dataSets[i].shape())
+    #for element in dataSets[3] :
+     #   print(element)
 
-    #model.fit(dataSets[0])
-    #model.predict(dataSets[2])
+    model.fit(dataSets[0])
+
+    gaits = model.predict(dataSets[3])
+
+    for shits in gaits :
+        print(shits)
 
 
     #print(model.summary())
