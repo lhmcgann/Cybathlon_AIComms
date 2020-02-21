@@ -1,5 +1,6 @@
 from sklearn import svm
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
 import csv
 from matplotlib import pyplot as plt
 import seaborn as sn
@@ -42,7 +43,17 @@ print(clf.n_support_)
 
 # After being fitted, the model can then be used to predict new values:
 predictions = clf.predict(X_test)
+# Hopefully this damn things finds optimal parameters
+tuned_parameters = [{'kernel': ['rbf'], 'gamma': [.001, .01, .1, 1, 10, 100], 'C': [1, 10, 100, 1000]},
+                   {'kernel': ['linear'], 'C':[1,10,100,1000]}]
+grid = GridSearchCV(estimator= svm, param_grid= tuned_parameters, scoring='accuracy', n_jobs=-1)
+grid.fit(X_train, y_train)
+print("Best score is ", grid.best_score_)
+print("Best C is ", grid.best_estimator_.C)
+print("Best Kernel: ", grid.best_estimator_.kernel)
+print("Best Gamma: ", grid.best_estimator_.gamma)
 
+# Gives Precision and accuracy scores to 3 decimal places
 print(sklearn.metrics.classification_report(y_test, predictions, digits=3 ))
 # Prints test and predicted data into a heatmap of a confusion matrix
 df_cm = pd.DataFrame(confusion_matrix(y_test, predictions))
