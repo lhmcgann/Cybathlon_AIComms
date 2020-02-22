@@ -47,7 +47,7 @@ predictions = clf.predict(X_test)
 # Gives Precision and accuracy scores to 3 decimal places
 print(sklearn.metrics.classification_report(y_test, predictions, digits=3 ))
 
-# Hopefully this damn things finds optimal parameters
+# This uses Gridsearch to find optimal parameters for kernel, gamma, and C respectively
 tuned_parameters = [{'kernel': ['rbf'], 'gamma': [.001, .01, .1, 1, 10, 100], 'C': [1, 10, 100, 1000]},
                    {'kernel': ['linear'], 'C':[1,10,100,1000]}]
 grid = GridSearchCV(estimator= svm.SVC(), param_grid= tuned_parameters, n_jobs=-1)
@@ -56,6 +56,11 @@ print("Best score is ", grid.best_score_)
 print("Best C is ", grid.best_estimator_.C)
 print("Best Kernel: ", grid.best_estimator_.kernel)
 print("Best Gamma: ", grid.best_estimator_.gamma)
+print()
+# This reruns the prediction on the Test data using the new parameters
+print("SVM using new parameters: ")
+grid_predictions= grid.predict(X_test)
+print(sklearn.metrics.classification_report(y_test, grid_predictions, digits= 3))
 
 # Prints test and predicted data into a heatmap of a confusion matrix
 df_cm = pd.DataFrame(confusion_matrix(y_test, predictions))
@@ -65,9 +70,6 @@ confusion = sn.heatmap(df_cm, annot=True, annot_kws={"size": 12}, xticklabels=(1
 confusion.set(title= 'SVM Confusion Matrix',
               xlabel="Predictions",
               ylabel='Real Values',)
-
-# print the accuracy score
-print('Score: ', clf.score(X_test, y_test))
 
 # plot the predictions vs the true y-vals (scatter will be more linear the better the model is)
 plt.scatter(y_test, predictions)
