@@ -47,7 +47,7 @@ predictions = clf.predict(X_test)
 # Gives Precision and accuracy scores to 3 decimal places
 print(sklearn.metrics.classification_report(y_test, predictions, digits=3 ))
 
-# This uses Gridsearch to find optimal parameters for kernel, gamma, and C respectively
+# Uses Gridsearch to find optimal parameters for kernel, gamma, and C respectively
 tuned_parameters = [{'kernel': ['rbf'], 'gamma': [.001, .01, .1, 1, 10, 100], 'C': [1, 10, 100, 1000]},
                    {'kernel': ['linear'], 'C':[1,10,100,1000]}]
 grid = GridSearchCV(estimator= svm.SVC(), param_grid= tuned_parameters, n_jobs=-1)
@@ -57,7 +57,8 @@ print("Best C is ", grid.best_estimator_.C)
 print("Best Kernel: ", grid.best_estimator_.kernel)
 print("Best Gamma: ", grid.best_estimator_.gamma)
 print()
-# This reruns the prediction on the Test data using the new parameters
+
+# Reruns the prediction on the Test data using the new parameters
 print("SVM using new parameters: ")
 grid_predictions= grid.predict(X_test)
 print(sklearn.metrics.classification_report(y_test, grid_predictions, digits= 3))
