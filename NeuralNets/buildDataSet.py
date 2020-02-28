@@ -20,14 +20,14 @@ def generateDataSet(filePath) :
     create a labeled, parseable dataset"""
 
     column_names = ['Left foot', 'Right foot', 'Gait', 'LeftFootSlope',
-                    'RightFootSlope']
+                    'RightFootSlope', 'LeftSecondDer', 'RightSecondDer']
     raw_dataSet = pd.read_csv(filePath, names=column_names,
                     na_values = '?', comment='\t',
                     sep=",", skipinitialspace=True )
     dataSet = raw_dataSet.copy()
     dataSet = dataSet.dropna() # Drops null values and unknowns from the dataset
     
-    trainDataSet = dataSet.sample(frac=0.8, random_state=0)
+    trainDataSet = dataSet.sample(frac=0.9, random_state=0)
     testDataSet = dataSet.drop(trainDataSet.index)
 
     return [trainDataSet, testDataSet]

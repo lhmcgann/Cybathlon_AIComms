@@ -39,9 +39,7 @@ def loadData(filename):
 			int(len(dataset) * VALIDATION_PERCENTAGE)]
 		testingDataset = dataset[int(len(dataset) * VALIDATION_PERCENTAGE) :]
 
-	print(type(tf.data.Dataset.from_tensor_slices(trainingDataset)))
 	return (tf.data.Dataset.from_tensor_slices(trainingDataset), 
-		int(len(dataset) * TRAINING_PERCENTAGE), 
 		tf.data.Dataset.from_tensor_slices(validationDataset),
 		tf.data.Dataset.from_tensor_slices(testingDataset))
 
