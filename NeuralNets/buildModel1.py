@@ -20,16 +20,16 @@ def buildModel(trainDataSet, trainLabels) :
     """This builds the model with three distinct layers, based off of the shape of our training dataset"""
     
     model = keras.Sequential([
-    layers.Dense(64, activation='relu', input_shape=[len(trainDataSet.keys())]),
-    layers.Dense(64, activation='relu'),
+    layers.Dense(64, activation='sigmoid', input_shape=[len(trainDataSet.keys())]),
+    layers.Dense(64, activation='sigmoid'),
     layers.Dense(1)
   ])
 
 
-    optimizer = tf.keras.optimizers.RMSprop(0.001)
+    #optimizer = tf.keras.optimizers.RMSprop(0.001)
 
     model.compile(loss='mse',
-                optimizer=optimizer,
+                optimizer="adam",
                 metrics=[tf.keras.metrics.Accuracy()]) # 'mae', 'mse'])
     return model
 
@@ -49,31 +49,31 @@ def trainModel(model, trainDataSet, testData, testLabels, trainLabels) :
     
 def testModel(model, testData, testLabels) :
     testPredictions = model.predict(testData).flatten()
-    return testPredictions
     #testLeft = testData.pop("Left foot")
     #testRight = testData.pop("Right foot")
-    #time = [i for i in range(len(testLabels))]
+    time = [i for i in range(len(testLabels))]
     
    
-    """
+    
     # Uncomment to plot actual v expected
     plt.figure(figsize=(15,6))
-    plot left foot force by x
-    plt.plot(time, testLeft, color='blue', label='Left Foot')
-    plot right foot force by y
-    plt.plot(time, testRight, color='red', label='Right Foot')
-    plot gait 
+    # plot left foot force by x
+    #plt.plot(time, testLeft, color='blue', label='Left Foot')
+    # plot right foot force by y
+    #plt.plot(time, testRight, color='red', label='Right Foot')
+    # plot gait 
     plt.plot(time, testPredictions,color='green', label='Predicted Gait')
     plt.plot(time, testLabels,color='blue', label='Actual Gait')
-    set range for x axis (X axis is truncated for readability)
+    # set range for x axis (X axis is truncated for readability)
     plt.xlim([0.0, 500.0])
     
     plt.xlabel('Time (seconds)')
-    plt.ylabel('Force (N)')
+    plt.ylabel('Gait Cycle')
     plt.title('Gait in Parkinson\'s Disease')
     plt.legend()
     plt.show()
-    """
+    return testPredictions
+    
 
 def calcPercentError(testLabels, predictions) :
     errors = []
@@ -93,7 +93,8 @@ def calcPercentError(testLabels, predictions) :
         error = difference
         errors.append(error)
         averageError += error
-        averagePercentError += error / train[i]
+        if (train[i] != 0) : 
+            averagePercentError += error / train[i]
 
     averageError = averageError / len(errors)
     averagePercentError = averagePercentError / len(errors)
@@ -114,7 +115,7 @@ it can see through the marginal error introduced by a random number addition
 """
 
 def main() :
-    dataSet = buildDataSet.generateDataSet('../data/outputWithRegression.csv')
+    dataSet = buildDataSet.generateDataSet('../data/outputWithRegressionNOISE.csv')
     trainDataSet = dataSet[0]
     testData = dataSet[1]
     trainLabels = trainDataSet.pop("Gait")

@@ -20,7 +20,7 @@ def generateDataSet(filePath) :
     create a labeled, parseable dataset"""
 
     column_names = ['Left foot', 'Right foot', 'Gait', 'LeftFootSlope',
-                    'RightFootSlope', 'LeftSecondDer', 'RightSecondDer']
+                    'RightFootSlope']
     raw_dataSet = pd.read_csv(filePath, names=column_names,
                     na_values = '?', comment='\t',
                     sep=",", skipinitialspace=True )
